@@ -86,11 +86,11 @@
     </nav>
     <div class="container">
         <div class="row">
-            <form action="saveproduct.php" class="form-horizontal" method="post" enctype="multipart/form-data">
+            <form action="updataproduct.php" class="form-horizontal" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name" class="control-label col-md-3">Name: </label>
                         <div class="col-md-9">
-                            <input type="text" name="txtName" class="form-control"value="<?php echo $prd->name;?>">
+                            <input type="text" name="txtName" class="form-control" value="<?php echo $prd->name;?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -102,13 +102,13 @@
                     <div class="form-group">
                         <label for="price" class="control-label col-md-3">Price: </label>
                         <div class="col-md-9">
-                            <input type="text" name="txtPrice" class="form-control">
+                            <input type="text" name="txtPrice" class="form-control"  value="<?php echo $prd->price;?>">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="stock" class="control-label col-md-3">Stock: </label>
+                        <label for="stock" class="control-label col-md-3">unitInstock: </label>
                         <div class="col-md-9">
-                            <input type="text" name="txtStock" class="form-control">
+                            <input type="text" name="txtStock" class="form-control" value="<?php echo $prd->unitInstock;?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -130,12 +130,10 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
-                        <input type="hidden" name="hdnProduct" value="<?php echo $prd->id;?>">
+                        <input type="hidden" name="hdnProductID" value="<?php echo $prd->id;?>">
                             <button type="submil" class="btn btn-primary">Save</button>
                             <button type="reset" class="btn btn-danger">Reset</button>
                         </div>
-                           
-                         
                         </div>
                     </div>
             </form>
