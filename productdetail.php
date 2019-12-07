@@ -1,13 +1,31 @@
 <?php 
     session_start();
+    include("connect.php");
     if(isset($_GET['pid'])){
         $pid = $_GET['pid'];
     }
     else{
         header("Location:index.php");
     }
-    include("connect.php");
-    $sql = "SELECT * FROM product WHERE id=$pid";
+    $menu = $_GET['cat'];
+    switch($menu){
+        case "notebook":{
+            $page = "product";
+            break;
+        }
+        case "storage":{
+            $page = "product2";
+            break;
+        }
+        case "cpu":{
+            $page = "product3";
+            break;
+        }
+        default:{
+            $page = "product";
+        }
+    }
+    $sql = "SELECT * FROM $page WHERE id=$pid";
     $result = $conn->query($sql);
     if(!$result){
         echo "Error:" . $conn->error;
@@ -44,9 +62,9 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">หน้าหลัก</a></li>
-                    <li><a href="#">เกี่ยวกับ</a></li>
-                    <li><a href="#">ติดต่อ</a></li>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">about</a></li>
+                    <li><a href="#">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 <?php 
@@ -55,13 +73,13 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"role="button"aria-haspopup="true"aria-expanded="false">
                         <i class="glyphicon glyphicon-user"></i>
-                            ยินดีต้อนรับ <?php echo $_SESSION ['name']?> <span class="caret"></span>
+                        Welcome <?php echo $_SESSION ['name']?> <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">โปรไฟล์</a></li>
-                            <li><a href="#">รายการสั่งซื้อ</a></li>
+                            <li><a href="#">profile</a></li>
+                            <li><a href="#">Order list</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="logout.php">ออกจากระบบ</a></li>
+                            <li><a href="logout.php">Sign out</a></li>
                         </ul>
                     </li>
                     <li>
@@ -73,8 +91,8 @@
                     }
                     else{
                     ?>
-                    <li><a href="login.php">เข้าสู่ระบบ</a></li>
-                    <li><a href="#">สมัครสมาชิก</a></li>
+                    <li><a href="login.php">log in</a></li>
+                    <li><a href="#">Register</a></li>
                     <?php 
                     }
                     ?>

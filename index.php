@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Jaidee Shop</title>
+    <title>Aom Shop</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
@@ -28,6 +28,17 @@
                     <li><a href="#">หน้าหลัก</a></li>
                     <li><a href="#">เกี่ยวกับ</a></li>
                     <li><a href="#">ติดต่อ</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"role="button"aria-haspopup="true"aria-expanded="false">
+                        <i class="glyphicon glyphicon-user"></i>
+                            สินค้า <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="index.php?cat=notebook">NOTEBOOK</a></li>
+                            <li><a href="index.php?cat=storage">STORAGE</a></li>
+                            <li><a href="index.php?cat=cpu">CPU</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 <?php 
@@ -71,7 +82,34 @@
                     <div class="container">
            <div class = "row">
            <?php
-                $sql = "SELECT * FROM product ORDER By id";
+              if(isset($_GET['cat'])){
+                  $menu = $_GET['cat'];
+              }
+              else{
+                  $menu="";
+              }
+              switch($menu){
+                  case "notebook":{
+                      $page = "product";
+                      $id = "notebook";
+                      break;
+                  }
+                  case "storage":{
+                      $page = "product2";
+                      $id = "storage";
+                      break;
+                  }
+                  case "cpu":{
+                      $page = "product3";
+                      $id = "cpu";
+                      break;
+                  }
+                  default:{
+                      $page = "product";
+                      $id = "notebook";
+                  }
+              }
+                $sql = "SELECT * FROM $page ORDER By id";
                 $result = $conn->query($sql);
                 if(!$result){
                     echo "Error during data retrieval";
@@ -82,7 +120,7 @@
                 ?> 
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                 <div class="thumbnail">
-                <a href="productdetail.php?pid=<?php echo $prd->id;?>">
+                <a href="productdetail.php?pid=<?php echo $prd->id;?>&cat=<?php echo $id;?>">
                     <img src="pig/<?php echo $prd->picture?> " alt="">
                     </a>
                     <div class="caption">
@@ -93,6 +131,13 @@
                         </strong>
                         </p>
                             <a href="#" class="btn btn-success">Read more</a>
+                            <a href="editproduct.php?pid=<?php echo $prd->id?>" class="btn btn-warning">
+                                <i class="glyphicon glyphicon-pencil"></i>Edit
+
+                            <a href="editproduct.php?pid=<?php echo $prd->id?>" class="btn btn-danger">
+                                <i class="glyphicon glyphicon-trash"></i>Edit
+                                
+                            </a>
                          </p>
                     </div>
                 </div>

@@ -1,6 +1,26 @@
 <?php 
     session_start();
     include("connect.php");
+    if(!isset($_GET['pid'])|| $_GET['pid']==""){
+        header("Location:index.php");
+    }
+    else{
+        $pid = $_GET['pid'];
+    }
+    $sql="SELECT * FROM product WHERE id = $pid";
+    $result = $conn->query($sql);
+    if(!$result){
+        echo "Error :" .$conn->error;
+    }
+    else{
+        if($result->num_rows>0){
+            $prd = $result->fetch_object();
+        }
+        else{
+            $prd=NULL;
+        }
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,13 +90,13 @@
                     <div class="form-group">
                         <label for="name" class="control-label col-md-3">Name: </label>
                         <div class="col-md-9">
-                            <input type="text" name="txtName" class="form-control">
+                            <input type="text" name="txtName" class="form-control"value="<?php echo $prd->name;?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="description" class="control-label col-md-3">Description: </label>
                         <div class="col-md-9">
-                            <textarea  name="txtDescription" class="form-control"></textarea>
+                            <textarea  name="txtDescription" class="form-control"> <?php echo $prd->description?></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -94,7 +114,10 @@
                     <div class="form-group">
                         <label for="picture" class="control-label col-md-3">Picture: </label>
                         <div class="col-md-9">
-                    <input type="file" name="filePic" class="form-control-file" accept="image/*">
+                        <div class="thumbnail">
+                            <img src="pig/<?php echo $prd->picture;?>"alt="">
+                        </div>
+                            <input type="file" name="filePic" class="form-control-file" accept="image/*">
                       </div>
                     </div>
                     <div class="form-group">
@@ -107,6 +130,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
+                        <input type="hidden" name="hdnProduct" value="<?php echo $prd->id;?>">
                             <button type="submil" class="btn btn-primary">Save</button>
                             <button type="reset" class="btn btn-danger">Reset</button>
                         </div>
